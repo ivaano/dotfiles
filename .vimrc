@@ -27,7 +27,7 @@
     if &term =~ "xterm" || &term =~ "screen.*"
         let &t_Co=256
         set background=dark
-        colorscheme jellybeans
+        #colorscheme jellybeans
         hi CursorLine cterm=none
     endif
     filetype plugin indent on       " Automatically detect file types.
