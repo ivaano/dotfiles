@@ -30,7 +30,7 @@ check_system() {
 # Installs essential packages.
 install_packages() {
   echo "--- Installing Packages ---"
-  packages="git zsh curl unzip"
+  packages="git zsh curl unzip python3"
   echo "Installing packages: $packages"
   sudo apt-get update
   sudo apt-get install -y --no-install-recommends $packages
