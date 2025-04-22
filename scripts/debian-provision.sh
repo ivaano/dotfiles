@@ -30,7 +30,7 @@ check_system() {
 # Installs essential packages.
 install_packages() {
   echo "--- Installing Packages ---"
-  packages="git zsh wget unzip" # Added unzip
+  packages="git zsh curl unzip"
   echo "Installing packages: $packages"
   sudo apt-get update
   sudo apt-get install -y --no-install-recommends $packages
@@ -50,6 +50,7 @@ download_dotfiles() {
     ".zpreztorc"
     ".zshrc"
     ".p10k.zsh"
+	".vimrc"
   )
   base_url="https://raw.githubusercontent.com/ivaano/dotfiles/refs/heads/master/"
   target_dir="$HOME" # Changed to $HOME
@@ -81,11 +82,52 @@ set_default_shell() {
   fi
 
   # Use chsh to change the shell.
-  if ! sudo chsh -u "$current_user" /bin/zsh; then
+  if sudo chsh -s /bin/zsh "$current_user"; then
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+  else
     echo "ERROR: Failed to change the default shell to Zsh."
     exit 1
   fi
   echo "Default shell set to Zsh for user $current_user.  You may need to logout and log back in."
+}
+
+# --- Module: Install Vim Plugins ---
+# Installs Vim plugins using Vundle.
+install_vim_plugins() {
+  echo "--- Installing Vim Plugins ---"
+  vundle_repo="https://github.com/VundleVim/Vundle.vim.git"
+  vundle_path="$HOME/.vim/bundle/Vundle.vim"
+
+  # Check if .vim directory exists, create if it doesn't
+  if [ ! -d "$HOME/.vim" ]; then
+    mkdir -p "$HOME/.vim"
+  fi
+
+  # Check if Vundle is already installed
+  if [ ! -d "$vundle_path" ]; then
+    echo "Cloning Vundle..."
+    if ! git clone "$vundle_repo" "$vundle_path"; then
+      echo "ERROR: Failed to clone Vundle repository."
+      exit 1
+    fi
+  else
+    echo "Vundle already installed."
+  fi
+
+  # Check if .vimrc exists, create a basic one if it doesn't
+  if [ -f "$HOME/.vimrc" ]; then
+	echo "Installing Vim plugins using Vundle..."
+	if ! /usr/bin/vim +PluginInstall +qall; then 
+	  echo "ERROR: Failed to install Vim plugins.  Please check your .vimrc and Vundle installation."
+	  exit 1
+	fi
+  else
+	  echo "ERROR: no .vimrc file was found."
+  fi
+
+  # Install plugins from .vimrc
+
+  echo "Vim plugins installed."
 }
 
 # --- Main Script ---
@@ -94,6 +136,7 @@ main() {
   install_packages
   download_dotfiles
   set_default_shell
+  install_vim_plugins
   echo "--- Provisioning Complete ---"
   echo "Please log out and log back in for changes to take effect."
 }
