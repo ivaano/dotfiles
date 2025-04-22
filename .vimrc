@@ -11,7 +11,7 @@ call plug#begin()
     Plug 'jiangmiao/auto-pairs'
     Plug 'preservim/nerdtree'
     Plug 'preservim/tagbar'
-    Plug 'wakatime/vim-wakatime'
+    "Plug 'wakatime/vim-wakatime'
 call plug#end()
 
 filetype plugin indent on
