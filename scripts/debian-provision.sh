@@ -58,7 +58,7 @@ download_dotfiles() {
   # Use a loop to download each dotfile
   for file in "${dotfiles[@]}"; do
     echo "Downloading $file..."
-    if ! wget -q "$base_url$file" -O "$target_dir/$file"; then #Added -q for quiet
+    if ! curl -s -o "$target_dir/$file" "$base_url$file"; then 
       echo "ERROR: Failed to download $file."
       # We don't exit the whole script if one file fails.
       # Consider adding a counter and exiting if too many fail.
