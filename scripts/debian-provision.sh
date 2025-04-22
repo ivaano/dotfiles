@@ -95,30 +95,13 @@ set_default_shell() {
 # Installs Vim plugins using Vundle.
 install_vim_plugins() {
   echo "--- Installing Vim Plugins ---"
-  vundle_repo="https://github.com/VundleVim/Vundle.vim.git"
-  vundle_path="$HOME/.vim/bundle/Vundle.vim"
-
-  # Check if .vim directory exists, create if it doesn't
-  if [ ! -d "$HOME/.vim" ]; then
-    mkdir -p "$HOME/.vim"
-  fi
-
-  # Check if Vundle is already installed
-  if [ ! -d "$vundle_path" ]; then
-    echo "Cloning Vundle..."
-    if ! git clone "$vundle_repo" "$vundle_path"; then
-      echo "ERROR: Failed to clone Vundle repository."
-      exit 1
-    fi
-  else
-    echo "Vundle already installed."
-  fi
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   # Check if .vimrc exists, create a basic one if it doesn't
   if [ -f "$HOME/.vimrc" ]; then
-	echo "Installing Vim plugins using Vundle..."
+	echo "Installing Vim plugins using vim-plug..."
 	if ! /usr/bin/vim +PluginInstall +qall; then 
-	  echo "ERROR: Failed to install Vim plugins.  Please check your .vimrc and Vundle installation."
+	  echo "ERROR: Failed to install Vim plugins.  Please check your .vimrc and vim-plug installation."
 	  exit 1
 	fi
   else
