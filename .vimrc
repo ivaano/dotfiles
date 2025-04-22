@@ -1,17 +1,19 @@
 set nocompatible
 filetype off
 
+call plug#begin()
+Plug 'sheerun/vim-polyglot'
+Plug 'Badacadabra/vim-archery'
+Plug 'cocopon/iceberg.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/nerdtree'
+Plug 'preservim/tagbar'
+Plug 'wakatime/vim-wakatime'
+call plug#end()
 
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-
-" Download plug-ins to the ~/.vim/plugged/ directory
-call vundle#begin('~/.vim/plugged')
-
-" Let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
-
-call vundle#end()
 filetype plugin indent on
 
 set nu     " Enable line numbers
@@ -37,17 +39,6 @@ set termguicolors
 set background=dark
 set showtabline=2
 set laststatus=2
-
-Plugin 'sheerun/vim-polyglot'
-Plugin 'Badacadabra/vim-archery'
-Plugin 'cocopon/iceberg.vim'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'preservim/nerdtree'
-Plugin 'preservim/tagbar'
-Plugin 'wakatime/vim-wakatime'
 
 colorscheme nord
 let g:airline_theme = 'archery'
