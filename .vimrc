@@ -2,16 +2,16 @@ set nocompatible
 filetype off
 
 call plug#begin()
-Plug 'sheerun/vim-polyglot'
-Plug 'Badacadabra/vim-archery'
-Plug 'cocopon/iceberg.vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'jiangmiao/auto-pairs'
-Plug 'preservim/nerdtree'
-Plug 'preservim/tagbar'
-Plug 'wakatime/vim-wakatime'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'Badacadabra/vim-archery'
+    Plug 'cocopon/iceberg.vim'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'preservim/nerdtree'
+    Plug 'preservim/tagbar'
+    Plug 'wakatime/vim-wakatime'
 call plug#end()
 
 filetype plugin indent on
@@ -40,7 +40,12 @@ set background=dark
 set showtabline=2
 set laststatus=2
 
-colorscheme nord
+try
+    colorscheme nord
+catch /^Vim\%((\a\+)\)\=:E185/
+    silent! colorscheme default
+endtry
+
 let g:airline_theme = 'archery'
 let g:AutoPairsShortcutToggle = '<C-P>'
 nmap <F2> :NERDTreeToggle<CR>

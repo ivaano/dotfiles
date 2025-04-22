@@ -100,7 +100,7 @@ install_vim_plugins() {
   # Check if .vimrc exists, create a basic one if it doesn't
   if [ -f "$HOME/.vimrc" ]; then
 	echo "Installing Vim plugins using vim-plug..."
-	if ! /usr/bin/vim +PluginInstall +qall; then 
+	if ! /usr/bin/vim -c 'silent PlugInstall' -c 'qa!'; then 
 	  echo "ERROR: Failed to install Vim plugins.  Please check your .vimrc and vim-plug installation."
 	  exit 1
 	fi
