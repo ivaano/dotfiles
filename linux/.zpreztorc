@@ -21,7 +21,7 @@ zstyle ':prezto:*:*' color 'yes'
 # zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 
 # Detect terminal capability
-if [[ "$TERM" != "dumb" ]] && [[ -n "$COLORTERM" ]]; then
+if [[ "$TERM" != "dumb" && "$TERM" != "linux" ]]; then
   _ADVANCED_TERMINAL=1
 else
   _ADVANCED_TERMINAL=0

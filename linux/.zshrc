@@ -1,5 +1,5 @@
 # Check if terminal supports advanced features
-if [[ "$TERM" != "dumb" ]] && [[ -n "$COLORTERM" ]]; then
+if [[ "$TERM" != "dumb" && "$TERM" != "linux" ]]; then
   _ADVANCED_TERMINAL=1
 else
   _ADVANCED_TERMINAL=0
@@ -26,6 +26,11 @@ export EDITOR=vim
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 if (( _ADVANCED_TERMINAL )); then
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
+
+# basic prompt for tty, forcing it here since prezto disables themes for dumb terminals
+if [[ "$TERM" == "linux" ]]; then
+  prompt skwp
 fi
 
 # fnm
