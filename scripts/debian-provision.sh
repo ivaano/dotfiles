@@ -76,8 +76,14 @@ prompt() {
 prompt_bool() {
     local key="$1" prompt_text="$2" default="${3:-n}"
     local input
+    local default_display
+    if [[ "$default" =~ ^[yY] ]]; then
+        default_display="[Y/n]"
+    else
+        default_display="[y/N]"
+    fi
     while true; do
-        read -rp "${prompt_text} [y/N]: " input
+        read -rp "${prompt_text} ${default_display}: " input
         input="${input:-$default}"
         case "$input" in
             [yY]|[yY][eE][sS]) PREFS["$key"]="yes"; break ;;
