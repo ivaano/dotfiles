@@ -50,34 +50,11 @@ install_zsh_frameworks() {
         log_ok "Prezto already installed."
     fi
 
-    if [[ ! -d "${home_dir}/.zprezto/modules/prompt/external/powerlevel10k" ]]; then
-        log_info "Cloning Powerlevel10k…"
-        sudo -u "$TARGET_USER" git clone \
-            https://github.com/romkatv/powerlevel10k.git \
-            "${home_dir}/.zprezto/modules/prompt/external/powerlevel10k"
-    else
-        log_ok "Powerlevel10k already installed."
-    fi
-
-    if [[ ! -d "${home_dir}/.zprezto/modules/autosuggestions/external" ]]; then
-        log_info "Cloning zsh-autosuggestions…"
-        sudo -u "$TARGET_USER" git clone \
-            https://github.com/zsh-users/zsh-autosuggestions.git \
-            "${home_dir}/.zprezto/modules/autosuggestions/external"
-    fi
-
-    if [[ ! -d "${home_dir}/.zprezto/modules/syntax-highlighting/external" ]]; then
-        log_info "Cloning zsh-syntax-highlighting…"
-        sudo -u "$TARGET_USER" git clone \
-            https://github.com/zsh-users/zsh-syntax-highlighting.git \
-            "${home_dir}/.zprezto/modules/syntax-highlighting/external"
-    fi
-
     if [[ ! -d "${home_dir}/.zprezto/modules/fzf-tab/external" ]]; then
         log_info "Cloning fzf-tab…"
         sudo -u "$TARGET_USER" git clone \
             https://github.com/Aloxaf/fzf-tab.git \
-            "${home_dir}/.zprezto/modules/fzf-tab/external"
+            "${home_dir}/.zprezto/contrib/fzf-tab"
     fi
 }
 
