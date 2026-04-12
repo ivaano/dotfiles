@@ -292,11 +292,21 @@ install_dotfile() {
 
 # --- Base system ---
 
+# Edit this array to add/remove base packages.
+BASE_PACKAGES=(
+    sudo
+    ca-certificates
+    curl
+    gnupg
+    apt-transport-https
+    git
+)
+
 provision_base() {
     log_section "Provisioning Base System"
     update_package_index
 
-    install_packages sudo ca-certificates curl gnupg apt-transport-https
+    install_packages "${BASE_PACKAGES[@]}"
 
     local hostname="${PREFS[hostname]:-}"
     if [[ -n "$hostname" ]] && [[ "$hostname" != "$(hostname)" ]]; then
@@ -487,7 +497,7 @@ provision_alacritty() {
     # Alacritty may not be in the Debian repo; try to install, warn if unavailable
     install_packages alacritty 2>/dev/null || {
         log_warn "Alacritty package not available in this repo. Installing config only."
-    fi
+    }
 
     run_cmd sudo install -d -m 755 "$config_dir"
     install_dotfile "alacritty/alacritty.toml" "${config_dir}/alacritty.toml" "$primary_user"
