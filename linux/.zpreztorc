@@ -20,23 +20,44 @@ zstyle ':prezto:*:*' color 'yes'
 # Set the Zsh functions to load (man zshcontrib).
 # zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 
+# Detect terminal capability
+if [[ "$TERM" != "dumb" ]] && [[ -n "$COLORTERM" ]]; then
+  _ADVANCED_TERMINAL=1
+else
+  _ADVANCED_TERMINAL=0
+fi
+
 # Set the Prezto modules to load (browse modules).
 # The order matters.
-zstyle ':prezto:load' pmodule \
-  'environment' \
-  'terminal' \
-  'editor' \
-  'history' \
-  'directory' \
-  'spectrum' \
-  'utility' \
-  'git' \
-  'completion' \
-  'syntax-highlighting' \
-  'history-substring-search' \
-  'autosuggestions' \
-  'fzf-tab' \
-  'prompt'
+if (( _ADVANCED_TERMINAL )); then
+  zstyle ':prezto:load' pmodule \
+    'environment' \
+    'terminal' \
+    'editor' \
+    'history' \
+    'directory' \
+    'spectrum' \
+    'utility' \
+    'git' \
+    'completion' \
+    'syntax-highlighting' \
+    'history-substring-search' \
+    'autosuggestions' \
+    'fzf-tab' \
+    'prompt'
+else
+  zstyle ':prezto:load' pmodule \
+    'environment' \
+    'terminal' \
+    'editor' \
+    'history' \
+    'directory' \
+    'spectrum' \
+    'utility' \
+    'git' \
+    'completion' \
+    'prompt'
+fi
 
 #
 # Autosuggestions
@@ -122,27 +143,15 @@ zstyle ':prezto:module:history-substring-search:color' not-found 'red'
 # zstyle ':prezto:module:history-substring-search' prefixed 'yes'
 
 #
-# macOS
-#
-
-# Set the keyword used by `mand` to open man pages in Dash.app
-# zstyle ':prezto:module:osx:man' dash-keyword 'manpages'
-
-#
-# Pacman
-#
-
-# Set the Pacman frontend.
-# zstyle ':prezto:module:pacman' frontend 'yaourt'
-
-#
 # Prompt
 #
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+if (( _ADVANCED_TERMINAL )); then
+  zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+fi
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
@@ -196,7 +205,7 @@ zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 zstyle ':prezto:module:syntax-highlighting' highlighters \
    'main' \
    'brackets' \
-   'pattern' 
+   'pattern'
    #'line' \
    #'cursor' \
    #'root'

@@ -1,8 +1,17 @@
+# Check if terminal supports advanced features
+if [[ "$TERM" != "dumb" ]] && [[ -n "$COLORTERM" ]]; then
+  _ADVANCED_TERMINAL=1
+else
+  _ADVANCED_TERMINAL=0
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if (( _ADVANCED_TERMINAL )); then
+  if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  fi
 fi
 
 # Source Prezto.
@@ -15,7 +24,9 @@ export SUDO_EDITOR=vim
 export EDITOR=vim
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if (( _ADVANCED_TERMINAL )); then
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
 
 # fnm
 FNM_PATH="/home/ivan/.local/share/fnm"
@@ -23,4 +34,7 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
   eval "$(fnm env --shell zsh)"
 fi
-source <(fzf --zsh)
+
+if (( _ADVANCED_TERMINAL )); then
+  source <(fzf --zsh)
+fi
