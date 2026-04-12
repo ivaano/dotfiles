@@ -41,12 +41,13 @@ set showtabline=2
 set laststatus=2
 
 try
-    colorscheme nord
+    colorscheme iceberg
 catch /^Vim\%((\a\+)\)\=:E185/
     silent! colorscheme default
 endtry
 
-let g:airline_theme = 'archery'
+let g:airline_theme = 'angr'
+let g:airline_powerline_fonts = 1
 let g:AutoPairsShortcutToggle = '<C-P>'
 nmap <F2> :NERDTreeToggle<CR>
 

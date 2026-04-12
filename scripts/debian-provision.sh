@@ -491,26 +491,6 @@ provision_tmux() {
     log_ok "Tmux installed and .tmux.conf placed."
 }
 
-# --- Alacritty ---
-
-provision_alacritty() {
-    log_section "Provisioning Alacritty"
-    local primary_user="${PREFS[primary_user]:-$(whoami)}"
-    local home_dir
-    home_dir="$(eval echo "~${primary_user}")"
-    local config_dir="${home_dir}/.config/alacritty"
-
-    # Alacritty may not be in the Debian repo; try to install, warn if unavailable
-    install_packages alacritty 2>/dev/null || {
-        log_warn "Alacritty package not available in this repo. Installing config only."
-    }
-
-    run_cmd sudo install -d -m 755 "$config_dir"
-    install_dotfile "alacritty/alacritty.toml" "${config_dir}/alacritty.toml" "$primary_user"
-    sudo chown -R "${primary_user}:${primary_user}" "$config_dir"
-    log_ok "Alacritty config placed."
-}
-
 # --- Docker ---
 
 provision_docker() {
@@ -572,7 +552,6 @@ run_provision() {
     provision_dev_tools
     provision_vim
     provision_tmux
-    provision_alacritty
     provision_docker
     provision_ssh
 
