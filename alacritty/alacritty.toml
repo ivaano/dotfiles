@@ -1,0 +1,47 @@
+[window]
+    decorations = "none"
+    opacity = 0.90
+
+[font]
+    normal = { family = "JetBrainsMonoNL NFM", style = "Regular"}
+    bold = { family = "JetBrainsMonoNL NFM", style = "Bold"}
+    italic = { family = "JetBrainsMonoNL NFM", style = "Italic"}
+    bold_italic = { family = "JetBrainsMonoNL NFM", style = "Bold Italic"}
+    size = 13
+
+[cursor]
+    style = { shape = "Underline", blinking = "Always"}
+    blink_timeout = 0
+    
+
+[colors.primary]
+    foreground = "#d1d5da"
+    background = "#1f2428"
+
+[colors.cursor]
+    text = "#1f2428"
+    cursor = "#d1d5da"
+
+[colors.selection]
+    text = "#d1d5da"
+    background = "#244262"
+
+[colors.normal]
+    black = "#586069"
+    red = "#ea4a5a"
+    green = "#34d058"
+    yellow = "#ffea7f"
+    blue = "#2188ff"
+    magenta = "#b392f0"
+    cyan = "#39c5cf"
+    white = "#d1d5da"
+
+[colors.bright]
+    black = "#959da5"
+    red = "#f97583"
+    green = "#85e89d"
+    yellow = "#ffea7f"
+    blue = "#79b8ff"
+    magenta = "#b392f0"
+    cyan = "#56d4dd"
+    white = "#fafbfc"
