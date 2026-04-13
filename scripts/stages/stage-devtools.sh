@@ -30,20 +30,21 @@ done
 install_node_via_fnm() {
     local home_dir
     home_dir="$(eval echo "~${TARGET_USER}")"
+    local fnm_dir="${home_dir}/.local/state/fnm"
 
-    if sudo -u "$TARGET_USER" test -d "${home_dir}/.local/state/fnm"; then
+    if [[ -d "$fnm_dir" ]]; then
         log_ok "fnm already installed for ${TARGET_USER}."
     else
         log_info "Installing fnm for ${TARGET_USER}…"
         sudo -u "$TARGET_USER" bash -c 'curl -fsSL https://fnm.vercel.app/install | bash'
     fi
 
-    if sudo -u "$TARGET_USER" test -f "${home_dir}/.local/state/fnm/aliases/24" || \
-       sudo -u "$TARGET_USER" bash -ic 'fnm ls 2>/dev/null' 2>&1 | grep -q "v24"; then
+    local fnm_bin="${home_dir}/.local/share/fnm/fnm"
+    if [[ -x "$fnm_bin" ]] && sudo -u "$TARGET_USER" test -f "${fnm_dir}/aliases/24"; then
         log_ok "Node.js 24 already installed via fnm for ${TARGET_USER}."
     else
         log_info "Installing Node.js 24 via fnm for ${TARGET_USER}…"
-        sudo -u "$TARGET_USER" bash -ic 'fnm install 24'
+        sudo -u "$TARGET_USER" bash -c "\"${fnm_bin}\" install 24"
     fi
 
     # Ensure fnm is sourced in shell config
