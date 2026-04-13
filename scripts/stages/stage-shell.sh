@@ -67,7 +67,7 @@ provision_shell() {
 
     case "$SHELL_CHOICE" in
         zsh)
-            install_packages zsh fzf
+            install_packages zsh fzf eza zoxide bat
             install_zsh_frameworks
 
             install_dotfile "${shell_platform}/.zshrc"       "${home_dir}/.zshrc"     "$TARGET_USER"
