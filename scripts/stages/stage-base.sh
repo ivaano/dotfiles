@@ -39,12 +39,12 @@ provision_base() {
     log_section "Provisioning Base System"
 
     local base_packages=(
-        sudo
+        apt-transport-https
         ca-certificates
         curl
-        gnupg
-        apt-transport-https
         git
+        gnupg
+        sudo
     )
 
     update_package_index
