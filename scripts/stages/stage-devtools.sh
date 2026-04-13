@@ -87,7 +87,7 @@ provision_dev_tools() {
 
     # Install packages from griffo repository
     install_packages \
-        git build-essential pkg-config \
+        unzip git build-essential pkg-config \
         python3 python3-pip python3-venv \
         uv fzf zoxide eza yazi
 
