@@ -72,11 +72,77 @@ install_dotfile() {
     log_ok "Installed ${rel_path} → ${dest_path}"
 }
 
-# ─── Privilege check ──────────────────────────────────────────────────────────
+# ─── Privilege escalation ─────────────────────────────────────────────────────
 
 ensure_sudo() {
-    if ! sudo -n true 2>/dev/null; then
-        log_error "This script requires sudo privileges."
+    # Already have working sudo
+    if sudo -n true 2>/dev/null; then
+        return 0
+    fi
+
+    # Running as root — install sudo if missing
+    if [[ "$(id -u)" -eq 0 ]]; then
+        if ! command -v sudo &>/dev/null; then
+            log_info "Running as root but sudo is not installed. Installing…"
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -qq
+            apt-get install -y -qq sudo
+            log_ok "sudo installed."
+        fi
+        return 0
+    fi
+
+    # No sudo — escalate via su + root password
+    log_warn "User $(whoami) does not have sudo privileges."
+    log_info "Escalating via su to fix this…"
+
+    local root_password=""
+    read -rs -p "Enter root password: " root_password
+    echo
+
+    if ! echo "$root_password" | su -c "id" - 2>/dev/null; then
+        log_error "Failed to authenticate as root."
+        exit 1
+    fi
+    log_ok "Root authentication successful."
+
+    # Install sudo if missing
+    if ! echo "$root_password" | su -c "command -v sudo" - 2>/dev/null; then
+        log_info "sudo not found on root. Installing…"
+        echo "$root_password" | su -c "
+            set -e
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -qq
+            apt-get install -y -qq sudo
+        " - 2>/dev/null || {
+            log_info "Trying alternative method…"
+            su -c "
+                export DEBIAN_FRONTEND=noninteractive
+                apt-get update -qq
+                apt-get install -y -qq sudo
+            " -
+        }
+        log_ok "sudo installed."
+    fi
+
+    # Add current user to sudoers
+    local current_user
+    current_user="$(whoami)"
+    echo "$root_password" | su -c "
+        usermod -aG sudo ${current_user}
+        grep -q '^${current_user} .*NOPASSWD' /etc/sudoers 2>/dev/null || \
+            echo '${current_user} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    " - 2>/dev/null || true
+
+    log_ok "User ${current_user} added to sudoers."
+    log_info "Re-checking sudo…"
+
+    # Verify sudo now works
+    if sudo -n true 2>/dev/null; then
+        log_ok "Sudo is working. Continuing…"
+        return 0
+    else
+        log_error "Sudo is still not active. Please log out and back in, then re-run this script."
         exit 1
     fi
 }
