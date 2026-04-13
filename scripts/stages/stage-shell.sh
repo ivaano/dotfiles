@@ -68,6 +68,17 @@ provision_shell() {
     case "$SHELL_CHOICE" in
         zsh)
             install_packages zsh fzf eza zoxide bat
+
+            # Clean up existing Prezto installation before fresh setup
+            if [[ -d "${home_dir}/.zprezto" ]]; then
+                log_info "Removing existing .zprezto directory…"
+                rm -rf "${home_dir}/.zprezto"
+            fi
+            if [[ -f "${home_dir}/.zpreztorc" ]]; then
+                log_info "Removing existing .zpreztorc file…"
+                rm -f "${home_dir}/.zpreztorc"
+            fi
+
             install_zsh_frameworks
 
             install_dotfile "${shell_platform}/.zshrc"       "${home_dir}/.zshrc"     "$TARGET_USER"
