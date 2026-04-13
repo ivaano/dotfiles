@@ -19,7 +19,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
 export SUDO_EDITOR=vim
 export EDITOR=vim
 
@@ -33,53 +32,61 @@ if [[ "$TERM" == "linux" ]]; then
   prompt skwp
 fi
 
-# fnm
-FNM_PATH="/home/ivan/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "$(fnm env --shell zsh)"
-fi
-
+# eye candy when terminal is right
 if (( _ADVANCED_TERMINAL )); then
   source <(fzf --zsh)
-fi
+  
+  # Base ls replacement: directories first, icons, git
+  alias ls='eza --group-directories-first --icons --git'
 
+  # Single column, include hidden files
+  alias l='eza -1 -a --icons --git'
+
+  # Long list, human-readable sizes
+  alias ll='eza -lh --icons --git --header'
+
+  # Recursive, long, human-readable
+  alias lr='eza -lhR --icons --git'
+
+  # Long list, human-readable, include hidden
+  alias la='eza -lha --icons --git'
+
+  # Long list, hidden, piped to pager
+  alias lm='eza -lha --icons --git | less -R'
+
+  # Sort by extension
+  alias lx='eza -lh --sort=extension --icons --git'
+
+  # Sort by size (largest last)
+  alias lk='eza -lh --sort=size --reverse --icons --git'
+
+  # Sort by date (most recent last)
+  alias lt='eza -lh --sort=modified --reverse --icons --git --time-style=long-iso'
+
+  # Sort by change time (ctime)
+  alias lc='eza -lh --sort=changed --reverse --icons --git --time-style=long-iso'
+
+  # Sort by access time (atime)
+  alias lu='eza -lh --sort=accessed --reverse --icons --git --time-style=long-iso'
+else
+  # No icons no integration with fzf
+  alias ls='eza --group-directories-first --git'
+  alias l='eza -1 -a --git'
+  alias ll='eza -lh --git --header'
+  alias lr='eza -lhR --git'
+  alias la='eza -lha --git'
+  alias lm='eza -lha --git | less -R'
+  alias lx='eza -lh --sort=extension --git'
+  alias lk='eza -lh --sort=size --reverse --git'
+  alias lt='eza -lh --sort=modified --reverse --git --time-style=long-iso'
+  alias lc='eza -lh --sort=changed --reverse --git --time-style=long-iso'
+  alias lu='eza -lh --sort=accessed --reverse --git --time-style=long-iso'
+fi
 
 # zoxide
 eval "$(zoxide init zsh)"
 
-# aliases
+# bat 
 alias bat="batcat"
 
-# Base ls replacement: directories first, icons, git
-alias ls='eza --group-directories-first --icons --git'
 
-# Single column, include hidden files
-alias l='eza -1 -a --icons --git'
-
-# Long list, human-readable sizes
-alias ll='eza -lh --icons --git --header'
-
-# Recursive, long, human-readable
-alias lr='eza -lhR --icons --git'
-
-# Long list, human-readable, include hidden
-alias la='eza -lha --icons --git'
-
-# Long list, hidden, piped to pager
-alias lm='eza -lha --icons --git | less -R'
-
-# Sort by extension
-alias lx='eza -lh --sort=extension --icons --git'
-
-# Sort by size (largest last)
-alias lk='eza -lh --sort=size --reverse --icons --git'
-
-# Sort by date (most recent last)
-alias lt='eza -lh --sort=modified --reverse --icons --git --time-style=long-iso'
-
-# Sort by change time (ctime)
-alias lc='eza -lh --sort=changed --reverse --icons --git --time-style=long-iso'
-
-# Sort by access time (atime)
-alias lu='eza -lh --sort=accessed --reverse --icons --git --time-style=long-iso'
